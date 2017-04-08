@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "888213455757",
+    "project_id": "onemoreerror"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888213455757:android:b3946360868b9f51",
+        "android_client_info": {
+          "package_name": "ixigo.example.apple.ixigohack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888213455757-8euho0vt4thpvq1vdkjako69kib1epa9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ixigo.example.apple.ixigohack",
+            "certificate_hash": "3ca12c42b0b0741d6fe7c96069bc86269e888ea4"
+          }
+        },
+        {
+          "client_id": "888213455757-jdkk3p1q18md184gv252d2bj9090gj7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3PiyebZLuKfI6cvRIttDMtaFB0OGoBAs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
