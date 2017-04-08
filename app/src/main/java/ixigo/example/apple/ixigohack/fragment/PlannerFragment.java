@@ -36,6 +36,7 @@ import ixigo.example.apple.ixigohack.activity.PlacePickerActivity;
 import ixigo.example.apple.ixigohack.adapters.PlannerFragmentListAdapter;
 import ixigo.example.apple.ixigohack.application.AppApplication;
 import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
+import ixigo.example.apple.ixigohack.eventBus.FirebaseEventBus;
 import ixigo.example.apple.ixigohack.eventBus.PlacePickerEventBus;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.objects.FirebaseDataObject;
@@ -63,11 +64,19 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
         super.onDestroy();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onMessageEvent(FirebaseEventBus.OnFirebaseEventAdded obj) {
+        if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position) {
+            if (adapter != null) {
+                adapter.addData(obj.getData());
+            }
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PlacePickerEventBus.OnPlacePicked obj) {
         if (obj != null && position == obj.getFragmentPosition()) {
             FirebaseDatabase database = AppApplication.getFirebaseInstance();
-            database.setPersistenceEnabled(true);
             DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
             DatabaseReference childNode = myRef.child(deviceId);
 
@@ -108,7 +117,6 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
     public void onMessageEvent(PlacePickerEventBus.OnUpdateEventCompleteEvent obj) {
         if (obj != null && position == obj.getPosition()) {
             FirebaseDatabase database = AppApplication.getFirebaseInstance();
-            database.setPersistenceEnabled(true);
             DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
             DatabaseReference childNode = myRef.child(deviceId);
 

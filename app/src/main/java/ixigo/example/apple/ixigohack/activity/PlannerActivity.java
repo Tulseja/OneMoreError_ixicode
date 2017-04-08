@@ -14,14 +14,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.application.AppApplication;
 import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
+import ixigo.example.apple.ixigohack.eventBus.FirebaseEventBus;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.fragment.PlannerFragment;
+import ixigo.example.apple.ixigohack.objects.FirebaseDataObject;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
@@ -74,7 +78,6 @@ public class PlannerActivity extends BaseActivity {
 
     private void loadData() {
         FirebaseDatabase database = AppApplication.getFirebaseInstance();
-        database.setPersistenceEnabled(true);
         DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
         DatabaseReference childNode = myRef.child(deviceId);
 
@@ -82,6 +85,22 @@ public class PlannerActivity extends BaseActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 DebugUtils.log("added");
+                try {
+                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                    FirebaseDataObject object = new FirebaseDataObject();
+                    object.setFirebaseKey(hashMap.get("firebaseKey").toString());
+                    object.setEndMin(((Long) hashMap.get("endMin")).intValue());
+                    object.setEndHour(((Long) hashMap.get("endHour")).intValue());
+                    object.setStarMin(((Long) hashMap.get("starMin")).intValue());
+                    object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
+                    object.setImage(hashMap.get("image").toString());
+                    object.setName(hashMap.get("name").toString());
+                    object.setStartHour(((Long) hashMap.get("startHour")).intValue());
+
+                    EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventAdded(object));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

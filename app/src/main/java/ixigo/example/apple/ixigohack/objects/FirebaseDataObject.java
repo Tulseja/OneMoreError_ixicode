@@ -18,6 +18,10 @@ public class FirebaseDataObject implements Comparable<FirebaseDataObject>, Parce
     String firebaseKey;
     int dayPos;
 
+    public FirebaseDataObject() {
+
+    }
+
     public FirebaseDataObject(PlacePickerResponse.PlacesToVisit data, int positionFragment) {
         this.image = data.getKeyImageUrl();
         this.name = data.getName();
@@ -26,6 +30,17 @@ public class FirebaseDataObject implements Comparable<FirebaseDataObject>, Parce
         this.endHour = data.getActivityEndHour();
         this.endMin = data.getActivityEndMinute();
         this.dayPos = positionFragment;
+    }
+
+    public FirebaseDataObject(String image, String name, Integer startHour, Integer starMin, Integer endHour, Integer endMin, String firebaseKey, int dayPos) {
+        this.image = image;
+        this.name = name;
+        this.startHour = startHour;
+        this.starMin = starMin;
+        this.endHour = endHour;
+        this.endMin = endMin;
+        this.firebaseKey = firebaseKey;
+        this.dayPos = dayPos;
     }
 
     protected FirebaseDataObject(Parcel in) {
