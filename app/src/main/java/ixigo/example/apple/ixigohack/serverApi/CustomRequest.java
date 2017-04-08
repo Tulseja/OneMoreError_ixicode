@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import ixigo.example.apple.ixigohack.application.AppApplication;
 import ixigo.example.apple.ixigohack.extras.RequestTags;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
@@ -59,6 +60,8 @@ public class CustomRequest extends Request<Object> {
         if (appRequestListener != null && context != null) {
             appRequestListener.onRequestStarted(tag);
         }
+
+        AppApplication.getInstance().addToRequestQueue(this, tag);
     }
 
     void destroyContext() {
@@ -117,7 +120,7 @@ public class CustomRequest extends Request<Object> {
 
     @Override
     protected Response<Object> parseNetworkResponse(NetworkResponse response) {
-        if (AndroidUtils.compareString(tag, RequestTags.REGISTER_USER)) {
+        if (AndroidUtils.compareString(tag, RequestTags.AUTOCOMPLETE_LOCATION)) {
 
         }
         return null;
