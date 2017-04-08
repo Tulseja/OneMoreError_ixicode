@@ -66,8 +66,10 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
+            
             ZPreferences.setIsUserLogin(this, true);
             openHomeActivity();
+            finish();
         } else {
             // Signed out, show unauthenticated UI.
         }
