@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "888213455757",
-    "project_id": "onemoreerror"
+    "firebase_url": "https://onemoreerror.firebaseio.com",
+    "project_id": "onemoreerror",
+    "storage_bucket": "onemoreerror.appspot.com"
   },
   "client": [
     {
@@ -12,6 +14,10 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "888213455757-i124a35f3g73e1nip0ihrqchgm33n9nv.apps.googleusercontent.com",
+          "client_type": 3
+        },
         {
           "client_id": "888213455757-jdkk3p1q18md184gv252d2bj9090gj7m.apps.googleusercontent.com",
           "client_type": 3
@@ -31,7 +37,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
