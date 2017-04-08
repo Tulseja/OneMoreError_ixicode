@@ -64,6 +64,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
+
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
 

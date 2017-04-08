@@ -38,6 +38,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void switchToHomeOrLoginActivity() {
+        ZPreferences.setIsUserLogin(this, true);
         if (ZPreferences.getIsUserLogin(this)) {
             openHomeActivity();
         } else {
