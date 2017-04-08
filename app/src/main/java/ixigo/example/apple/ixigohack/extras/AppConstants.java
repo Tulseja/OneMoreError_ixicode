@@ -10,5 +10,6 @@ public interface AppConstants {
     public interface ACTIVITY_OPEN_REQUEST_CODES {
         int ACTIVITY_LOCATION_SELECTION_ORIGIN = 1;
         int ACTIVITY_LOCATION_SELECTION_DESTINATION = 2;
+        int ACTIVITY_GOOGLE_LOGIN = 3;
     }
 }
