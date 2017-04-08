@@ -199,6 +199,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     void openHomeActivity() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
 
+    void openLocationSelectionActivity(int requestCode) {
+        Intent intent = new Intent(this, LocationSelectionActivity.class);
+        startActivityForResult(intent, requestCode);
     }
 }

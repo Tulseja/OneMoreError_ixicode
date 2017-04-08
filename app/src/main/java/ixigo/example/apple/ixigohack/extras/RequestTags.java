@@ -5,6 +5,6 @@ package ixigo.example.apple.ixigohack.extras;
  */
 public interface RequestTags {
 
-    // LOGIN MODULE
-    String REGISTER_USER = "REGISTER_USER";
+    // AUTO COMPLETE LOCATION MODULE
+    String AUTOCOMPLETE_LOCATION = "AUTOCOMPLETE_LOCATION";
 }
