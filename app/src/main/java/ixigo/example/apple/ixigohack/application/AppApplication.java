@@ -10,6 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.FirebaseDatabase;
 
 import io.branch.referral.Branch;
 
@@ -21,6 +22,7 @@ public class AppApplication extends Application {
     private static AppApplication sInstance;
 
     private RequestQueue mRequestQueue;
+    private static FirebaseDatabase mDatabase;
 
     @Override
     public void onCreate() {
@@ -30,6 +32,13 @@ public class AppApplication extends Application {
         Branch.getAutoInstance(this);
     }
 
+    public static FirebaseDatabase getFirebaseInstance() {
+        if (mDatabase == null) {
+            mDatabase = FirebaseDatabase.getInstance();
+            mDatabase.setPersistenceEnabled(true);
+        }
+        return mDatabase;
+    }
 
     public static AppApplication getInstance() {
         if (sInstance == null)

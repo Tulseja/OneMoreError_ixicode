@@ -1,28 +1,18 @@
 package ixigo.example.apple.ixigohack.activity;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +27,6 @@ import ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse;
 import ixigo.example.apple.ixigohack.serverApi.AppRequestListener;
 import ixigo.example.apple.ixigohack.serverApi.CustomRequest;
 import ixigo.example.apple.ixigohack.urls.PlannerAppUrls;
-import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
 /**
  * Created by apple on 08/04/17.

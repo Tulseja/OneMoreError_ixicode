@@ -34,6 +34,7 @@ import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.activity.BaseActivity;
 import ixigo.example.apple.ixigohack.activity.PlacePickerActivity;
 import ixigo.example.apple.ixigohack.adapters.PlannerFragmentListAdapter;
+import ixigo.example.apple.ixigohack.application.AppApplication;
 import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
 import ixigo.example.apple.ixigohack.eventBus.PlacePickerEventBus;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
@@ -65,7 +66,8 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PlacePickerEventBus.OnPlacePicked obj) {
         if (obj != null && position == obj.getFragmentPosition()) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            FirebaseDatabase database = AppApplication.getFirebaseInstance();
+            database.setPersistenceEnabled(true);
             DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
             DatabaseReference childNode = myRef.child(deviceId);
 
@@ -105,7 +107,8 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PlacePickerEventBus.OnUpdateEventCompleteEvent obj) {
         if (obj != null && position == obj.getPosition()) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            FirebaseDatabase database = AppApplication.getFirebaseInstance();
+            database.setPersistenceEnabled(true);
             DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
             DatabaseReference childNode = myRef.child(deviceId);
 
