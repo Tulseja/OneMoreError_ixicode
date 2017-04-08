@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.android.volley.Request;
@@ -17,6 +20,7 @@ import com.android.volley.VolleyError;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -143,11 +147,13 @@ public class PlacePickerActivity extends BaseActivity implements AppRequestListe
 
         PlacePickerResponse.PlacesToVisit data;
         int fragmentPosition;
+        String title;
 
-        public static TimePickerFragment newInstance(PlacePickerResponse.PlacesToVisit data, int fragmentPosition) {
+        public static TimePickerFragment newInstance(PlacePickerResponse.PlacesToVisit data, int fragmentPosition, String title) {
             Bundle args = new Bundle();
             args.putParcelable(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_PLACE_PICKER_RESPONSE, data);
             args.putInt(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_POSITION, fragmentPosition);
+            args.putString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_DIALOG_TITLE, title);
 
             TimePickerFragment fragment = new TimePickerFragment();
             fragment.setArguments(args);
@@ -161,7 +167,14 @@ public class PlacePickerActivity extends BaseActivity implements AppRequestListe
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = 0;
 
-            return new TimePickerDialog(getActivity(), this, hour, minute, false);
+            title = getArguments().getString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_DIALOG_TITLE);
+
+            TimePickerDialog dialog = new TimePickerDialog(getActivity(), this, hour, minute, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_custom_title, null, false);
+            TextView text = (TextView) view.findViewById(R.id.text_custom_title);
+            text.setText(title);
+            dialog.setCustomTitle(view);
+            return dialog;
         }
 
         @Override
@@ -189,7 +202,8 @@ public class PlacePickerActivity extends BaseActivity implements AppRequestListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PlacePickerEventBus.OnPlannerStartDateSelected obj) {
-        DialogFragment newFragment = TimePickerFragment.newInstance(obj.getData(), fragmentPosition);
+        DialogFragment newFragment = TimePickerFragment.newInstance(obj.getData(),
+                fragmentPosition, getResources().getString(R.string.time_picker_title_select_end_time));
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 }

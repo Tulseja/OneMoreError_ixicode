@@ -80,7 +80,8 @@ public class PlacePickerFragment extends BaseFragment implements PlacePickerList
     public void onPlaceClicked(PlacePickerResponse.PlacesToVisit data) {
         data.setActivityStartHour(null);
 
-        DialogFragment newFragment = PlacePickerActivity.TimePickerFragment.newInstance(data, 0);
+        DialogFragment newFragment = PlacePickerActivity.TimePickerFragment.newInstance(data,
+                0, getResources().getString(R.string.time_picker_title_select_start_time));
         newFragment.show(getChildFragmentManager(), "timePicker");
     }
 }
