@@ -10,5 +10,5 @@ public interface AppRequestListener {
 
     void onRequestFailed(String requestTag, VolleyError error, boolean networkError);
 
-    void onRequestCompleted(String requestTag, String response);
+    void onRequestCompleted(String requestTag, Object response);
 }

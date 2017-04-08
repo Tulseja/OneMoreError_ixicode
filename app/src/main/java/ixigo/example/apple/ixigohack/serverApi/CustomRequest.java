@@ -1,25 +1,31 @@
 package ixigo.example.apple.ixigohack.serverApi;
 
+import android.content.Context;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import ixigo.example.apple.ixigohack.extras.RequestTags;
+import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
+/**
+ * Created by apple on 08/04/17.
+ */
 
-public class CustomStringRequest extends StringRequest {
+public class CustomRequest extends Request<Object> {
 
     AppRequestListener appRequestListener;
-    HashMap<String, String> params;
     HashMap<String, String> headers;
     String tag;
     String url;
@@ -28,22 +34,21 @@ public class CustomStringRequest extends StringRequest {
 
     long requestStartTime;
 
-    public CustomStringRequest(int method, String url, String tag,
-                               AppRequestListener appRequestListener,
-                               HashMap<String, String> params, HashMap<String, String> headers) {
-        this(method, url, tag, appRequestListener, params, headers, null);
+    Context context;
+
+    public CustomRequest(Context context, int method, String url, String tag, AppRequestListener appRequestListener, HashMap<String, String> headers) {
+        this(context, method, url, tag, appRequestListener, headers, null);
     }
 
-    public CustomStringRequest(int method, String url, String tag,
-                               AppRequestListener appRequestListener,
-                               HashMap<String, String> params, HashMap<String, String> headers, String body) {
-        super(method, url, null, null);
+    public CustomRequest(Context context, int method, String url, String tag,
+                         AppRequestListener appRequestListener, HashMap<String, String> headers, String body) {
+        super(method, url, null);
         this.appRequestListener = appRequestListener;
         this.tag = tag;
-        this.params = params;
         this.headers = headers;
         this.url = url;
         this.body = body;
+        this.context = context;
 
         DebugUtils.logRequests("Request Started. URL = " + url);
 
@@ -51,9 +56,14 @@ public class CustomStringRequest extends StringRequest {
             requestStartTime = System.currentTimeMillis();
         }
 
-        if (appRequestListener != null) {
+        if (appRequestListener != null && context != null) {
             appRequestListener.onRequestStarted(tag);
         }
+    }
+
+    void destroyContext() {
+        context = null;
+        appRequestListener = null;
     }
 
     @Override
@@ -72,30 +82,10 @@ public class CustomStringRequest extends StringRequest {
     }
 
     @Override
-    protected void deliverResponse(String response) {
-        if (DebugUtils.noteAppRequestTimes) {
-            long requestEndTime = System.currentTimeMillis();
-            long difference = (requestEndTime - requestStartTime);
-            DebugUtils.logRequests("Request Complete in " + difference + "ms. URL = " + url);
-        } else {
-            DebugUtils.logRequests("Request Complete. URL = " + url);
-        }
-        DebugUtils.printToSystem(response);
-
-        sendResponseToListener(response);
-    }
-
-    private void sendResponseToListener(String response) {
-        if (appRequestListener != null) {
-            appRequestListener.onRequestCompleted(tag, response);
-        }
-    }
-
-    @Override
     public void deliverError(VolleyError error) {
         String responseCode = "Network error";
         if (error != null && error.networkResponse != null) {
-            responseCode = "" + error.networkResponse.statusCode;
+            responseCode = Integer.toString(error.networkResponse.statusCode);
         }
 
         if (DebugUtils.noteAppRequestTimes) {
@@ -108,7 +98,7 @@ public class CustomStringRequest extends StringRequest {
 
         DebugUtils.printToSystem(error);
 
-        if (appRequestListener != null) {
+        if (appRequestListener != null && context != null) {
             boolean networkError = false;
             if (error == null || error.networkResponse == null) {
                 networkError = true;
@@ -122,16 +112,31 @@ public class CustomStringRequest extends StringRequest {
 
             appRequestListener.onRequestFailed(tag, error, networkError);
         }
+        destroyContext();
     }
 
     @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        return super.parseNetworkResponse(response);
+    protected Response<Object> parseNetworkResponse(NetworkResponse response) {
+        if (AndroidUtils.compareString(tag, RequestTags.REGISTER_USER)) {
+
+        }
+        return null;
     }
 
     @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-        return params != null ? params : Collections.<String, String>emptyMap();
+    protected void deliverResponse(Object response) {
+        if (DebugUtils.noteAppRequestTimes) {
+            long requestEndTime = System.currentTimeMillis();
+            long difference = (requestEndTime - requestStartTime);
+            DebugUtils.logRequests("Request Complete in " + difference + "ms. URL = " + url);
+        } else {
+            DebugUtils.logRequests("Request Complete. URL = " + url);
+        }
+
+        if (appRequestListener != null && context != null) {
+            appRequestListener.onRequestCompleted(tag, response);
+        }
+        destroyContext();
     }
 
     @Override

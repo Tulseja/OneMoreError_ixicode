@@ -22,7 +22,7 @@ public class DebugUtils {
 
     public static void logRequests(String message) {
         if (showTags && message != null) {
-            Log.w("CustomStringRequest", message);
+            Log.w("CustomRequest", message);
         }
     }
 
