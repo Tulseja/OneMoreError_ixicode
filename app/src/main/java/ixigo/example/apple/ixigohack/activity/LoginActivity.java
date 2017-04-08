@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
+import ixigo.example.apple.ixigohack.preferences.ZPreferences;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
 
@@ -65,6 +66,7 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.OnCon
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
+            ZPreferences.setIsUserLogin(this, true);
             openHomeActivity();
         } else {
             // Signed out, show unauthenticated UI.
