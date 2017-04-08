@@ -15,7 +15,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ixigo.example.apple.ixigohack.R;
-import ixigo.example.apple.ixigohack.model.TrendingFragmentModel;
+import ixigo.example.apple.ixigohack.objects.trending.TrendingFragmentResponse;
+import ixigo.example.apple.ixigohack.serverApi.ImageRequestManager;
 
 /**
  * Created by hp on 8/4/17.
@@ -24,10 +25,19 @@ import ixigo.example.apple.ixigohack.model.TrendingFragmentModel;
 public class TrendingFragmentAdapter extends RecyclerView.Adapter<TrendingFragmentAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<TrendingFragmentModel> trendingList ;
+    private List<TrendingFragmentResponse.Flight> mData;
 
+    LayoutInflater layoutInflater;
+
+    public TrendingFragmentAdapter(Context mContext, TrendingFragmentResponse list) {
+        this.mContext = mContext;
+        this.mData = list.getData().getFlight();
+
+        layoutInflater = LayoutInflater.from(mContext);
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+
         @BindView(R.id.nameOfPlace)
         TextView placeName;
 
@@ -39,26 +49,22 @@ public class TrendingFragmentAdapter extends RecyclerView.Adapter<TrendingFragme
             ButterKnife.bind(this, view);
         }
     }
-        public TrendingFragmentAdapter(Context mContext, List<TrendingFragmentModel> list) {
-            this.mContext = mContext;
-            this.trendingList = list;
-        }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_home_trending, parent, false);
-
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(layoutInflater.inflate(R.layout.fragment_card, parent, false));
     }
+
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        TrendingFragmentModel trendingFragmentModel = trendingList.get(position);
-        holder.placeName.setText(trendingFragmentModel.getPlaceName());
-        Glide.with(mContext).load(trendingFragmentModel.getImageUrl()).into(holder.thumbnail);
+        TrendingFragmentResponse.Flight data = mData.get(position);
+
+        holder.placeName.setText(data.getCityName());
+        ImageRequestManager.requestImage(mContext, holder.thumbnail, data.getImage());
     }
+
     @Override
     public int getItemCount() {
-        return trendingList.size();
+        return mData.size();
     }
 }
