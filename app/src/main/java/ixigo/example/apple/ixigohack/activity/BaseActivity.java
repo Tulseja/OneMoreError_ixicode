@@ -28,6 +28,8 @@ import ixigo.example.apple.ixigohack.R;
  */
 public class BaseActivity extends AppCompatActivity {
 
+    @Nullable
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     Toast toast;

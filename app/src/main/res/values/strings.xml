@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Ixigo Hack</string>
     <string name="title_activity_login">Sign in</string>
+
+    <!-- home -->
+    <string name="home_page_trending">Trending</string>
+    <string name="home_page_search">Search</string>
 </resources>
