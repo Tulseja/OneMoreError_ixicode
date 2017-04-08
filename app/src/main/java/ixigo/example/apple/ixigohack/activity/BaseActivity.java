@@ -205,7 +205,7 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    void openLocationSelectionActivity(int requestCode) {
+    public void openLocationSelectionActivity(int requestCode) {
         Intent intent = new Intent(this, LocationSelectionActivity.class);
         startActivityForResult(intent, requestCode);
     }
