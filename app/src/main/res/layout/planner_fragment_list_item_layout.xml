@@ -44,7 +44,6 @@
                     android:id="@+id/nameOfPlace"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/z_margin_small"
                     android:text="@{data.name}"
                     android:textColor="@color/z_text_color_medium_dark" />
 
