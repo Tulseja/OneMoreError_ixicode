@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_gravity="center"
+    android:layout_marginBottom="@dimen/z_margin_small"
+    android:layout_marginLeft="@dimen/z_margin_small"
+    android:layout_marginRight="@dimen/z_margin_small"
+    android:background="@color/white"
+    android:clickable="true"
+    android:elevation="@dimen/z_margin_mini"
+    android:foreground="?attr/selectableItemBackground">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:elevation="3dp">
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/imageOfPlace"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="center" />
 
-            <ImageView
-                android:id="@+id/imageOfPlace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:clickable="true"
-                android:scaleType="center" />
-
-            <TextView
-                android:id="@+id/nameOfPlace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/imageOfPlace" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+        <TextView
+            android:id="@+id/nameOfPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/z_margin_small"
+            android:textColor="@color/z_text_color_medium_dark" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

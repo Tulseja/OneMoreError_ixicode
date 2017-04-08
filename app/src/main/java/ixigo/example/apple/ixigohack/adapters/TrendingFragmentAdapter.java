@@ -48,6 +48,11 @@ public class TrendingFragmentAdapter extends RecyclerView.Adapter<TrendingFragme
             super(view);
             ButterKnife.bind(this, view);
         }
+
+        public void setData(TrendingFragmentResponse.Flight data) {
+            placeName.setText(data.getCityName());
+            ImageRequestManager.requestImage(mContext, thumbnail, data.getImage());
+        }
     }
 
     @Override
@@ -59,8 +64,7 @@ public class TrendingFragmentAdapter extends RecyclerView.Adapter<TrendingFragme
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         TrendingFragmentResponse.Flight data = mData.get(position);
 
-        holder.placeName.setText(data.getCityName());
-        ImageRequestManager.requestImage(mContext, holder.thumbnail, data.getImage());
+        holder.setData(data);
     }
 
     @Override

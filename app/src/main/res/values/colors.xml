@@ -28,12 +28,6 @@
     <color name="z_black_90_alpha">#E6000000</color>
     <color name="z_black_75_alpha">#BF000000</color>
 
-    <!--message count bg-->
-    <color name="message_count_color_1">#34495e</color>
-    <color name="message_count_color_2">#00bcd4</color>
-    <color name="message_count_color_3">#4caf50</color>
-    <color name="message_count_color_4">#f44336</color>
-
     <!-- common colors -->
     <color name="white">#ffffff</color>
     <color name="z_white_transparency">#80ffffff</color>
@@ -53,30 +47,4 @@
     <!-- ripple-->
     <color name="colorRipple">@color/z_grey_shade_3</color>
     <color name="colorRippleBelowLollipop">#55e0e0e0</color>
-
-    <color name="z_blue_500">#2196f3</color>
-
-
-    <!--
-    95% — F2
-    90% — E6
-    85% — D9
-    80% — CC
-    75% — BF
-    70% — B3
-    65% — A6
-    60% — 99
-    55% — 8C
-    50% — 80
-    45% — 73
-    40% — 66
-    35% — 59
-    30% — 4D
-    25% — 40
-    20% — 33
-    15% — 26
-    10% — 1A
-    5% — 0D
-    0% — 00
-    -->
 </resources>

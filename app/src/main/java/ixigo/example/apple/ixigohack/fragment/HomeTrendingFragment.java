@@ -61,8 +61,6 @@ public class HomeTrendingFragment extends BaseFragment implements AppRequestList
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         loadData();
     }
 

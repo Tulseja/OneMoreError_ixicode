@@ -9,5 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:paddingTop="@dimen/z_margin_small"
+        android:scrollbars="none" />
 </LinearLayout>
