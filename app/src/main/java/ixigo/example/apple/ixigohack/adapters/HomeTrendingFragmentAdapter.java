@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,14 +20,14 @@ import ixigo.example.apple.ixigohack.serverApi.ImageRequestManager;
  * Created by hp on 8/4/17.
  */
 
-public class TrendingFragmentAdapter extends RecyclerView.Adapter<TrendingFragmentAdapter.MyViewHolder> {
+public class HomeTrendingFragmentAdapter extends RecyclerView.Adapter<HomeTrendingFragmentAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<TrendingFragmentResponse.Flight> mData;
 
     LayoutInflater layoutInflater;
 
-    public TrendingFragmentAdapter(Context mContext, TrendingFragmentResponse list) {
+    public HomeTrendingFragmentAdapter(Context mContext, TrendingFragmentResponse list) {
         this.mContext = mContext;
         this.mData = list.getData().getFlight();
 
@@ -57,7 +55,7 @@ public class TrendingFragmentAdapter extends RecyclerView.Adapter<TrendingFragme
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(layoutInflater.inflate(R.layout.fragment_card, parent, false));
+        return new MyViewHolder(layoutInflater.inflate(R.layout.trending_places_list_item_layout, parent, false));
     }
 
     @Override

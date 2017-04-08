@@ -1,8 +1,6 @@
 package ixigo.example.apple.ixigohack.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,13 +10,10 @@ import android.view.ViewGroup;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ixigo.example.apple.ixigohack.R;
-import ixigo.example.apple.ixigohack.adapters.TrendingFragmentAdapter;
+import ixigo.example.apple.ixigohack.adapters.HomeTrendingFragmentAdapter;
 import ixigo.example.apple.ixigohack.extras.RequestTags;
 import ixigo.example.apple.ixigohack.objects.trending.TrendingFragmentResponse;
 import ixigo.example.apple.ixigohack.serverApi.AppRequestListener;
@@ -35,7 +30,7 @@ public class HomeTrendingFragment extends BaseFragment implements AppRequestList
     RecyclerView recyclerView;
 
     LinearLayoutManager layoutManager;
-    private TrendingFragmentAdapter adapter;
+    private HomeTrendingFragmentAdapter adapter;
 
     public static HomeTrendingFragment newInstance() {
         Bundle args = new Bundle();
@@ -88,7 +83,7 @@ public class HomeTrendingFragment extends BaseFragment implements AppRequestList
         if (requestTag.equalsIgnoreCase(RequestTags.TRENDING_PLACES)) {
             TrendingFragmentResponse mData = (TrendingFragmentResponse) response;
 
-            adapter = new TrendingFragmentAdapter(getActivity(), mData);
+            adapter = new HomeTrendingFragmentAdapter(getActivity(), mData);
             recyclerView.setAdapter(adapter);
         }
     }

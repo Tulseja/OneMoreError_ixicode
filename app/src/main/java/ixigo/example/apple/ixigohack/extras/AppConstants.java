@@ -15,5 +15,11 @@ public interface AppConstants {
 
     public interface INTENT_EXTRAS {
         String EXTRA_LOCATION_AUTOCOMPLETE = "EXTRA_LOCATION_AUTOCOMPLETE";
+        String EXTRA_PLACE_ID_PLANNER = "EXTRA_PLACE_ID_PLANNER";
+        String EXTRA_DAYS_PLANNER = "EXTRA_DAYS_PLANNER";
+    }
+
+    public interface FRAGMENT_EXTRAS {
+        String EXTRA_FRAGMENT_POSITION = "EXTRA_FRAGMENT_POSITION";
     }
 }
