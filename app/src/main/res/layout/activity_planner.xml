@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_with_tab_strip_layout" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/planner_viewpager"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar_with_tab_strip_layout" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/planner_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_planner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/z_margin_large"
+        android:src="@drawable/ic_add_black_24dp"
+        android:tint="@color/white"
+        app:backgroundTint="@color/colorAccent"
+        app:elevation="@dimen/z_margin_mini"
+        app:fabSize="normal" />
+</FrameLayout>

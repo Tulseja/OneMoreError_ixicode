@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import ixigo.example.apple.ixigohack.R;
+import ixigo.example.apple.ixigohack.extras.AppConstants;
 
 
 /**
@@ -202,6 +203,13 @@ public class BaseActivity extends AppCompatActivity {
 
     void openHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void openPlannerActivity(int days, String placeId) {
+        Intent intent = new Intent(this, PlannerActivity.class);
+        intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_ID_PLANNER, placeId);
+        intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_DAYS_PLANNER, days);
         startActivity(intent);
     }
 }

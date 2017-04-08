@@ -1,6 +1,7 @@
 package ixigo.example.apple.ixigohack.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.fragment.PlannerFragment;
@@ -24,6 +26,8 @@ public class PlannerActivity extends BaseActivity {
     ViewPager viewPager;
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
+    @BindView(R.id.fab_planner)
+    FloatingActionButton floatingActionButton;
 
     String placeId;
     int days;
@@ -44,6 +48,11 @@ public class PlannerActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(days);
     }
 
+    @OnClick(R.id.fab_planner)
+    void onFabClick() {
+
+    }
+
     class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
@@ -58,6 +67,11 @@ public class PlannerActivity extends BaseActivity {
         @Override
         public int getCount() {
             return days;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Day " + (position + 1);
         }
     }
 }

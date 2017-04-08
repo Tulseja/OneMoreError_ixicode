@@ -1,13 +1,19 @@
 package ixigo.example.apple.ixigohack.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
+
+import biz.kasual.materialnumberpicker.MaterialNumberPicker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -16,6 +22,8 @@ import ixigo.example.apple.ixigohack.activity.BaseActivity;
 import ixigo.example.apple.ixigohack.activity.LocationSelectionActivity;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.objects.autoComplete.AutoCompleteResponse;
+import ixigo.example.apple.ixigohack.utils.DebugUtils;
+import ixigo.example.apple.ixigohack.utils.UIUtils;
 
 /**
  * Created by apple on 08/04/17.
@@ -27,6 +35,12 @@ public class HomeSearchFragment extends BaseFragment {
     TextView origin;
     @BindView(R.id.home_search_destination)
     TextView destination;
+
+    Integer days;
+    String destinationPlaceId;
+
+    AlertDialog alertDialog;
+    MaterialNumberPicker numberPicker;
 
     public static HomeSearchFragment newInstance() {
         Bundle args = new Bundle();
@@ -65,6 +79,49 @@ public class HomeSearchFragment extends BaseFragment {
         }
     }
 
+    @OnClick(R.id.home_search_days)
+    void selectDays() {
+        numberPicker = new MaterialNumberPicker.Builder(getActivity())
+                .minValue(1)
+                .maxValue(20)
+                .defaultValue(1)
+                .backgroundColor(Color.WHITE)
+                .separatorColor(Color.TRANSPARENT)
+                .textColor(Color.BLACK)
+                .textSize(20)
+                .enableFocusability(false)
+                .wrapSelectorWheel(true)
+                .build();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle("Select number of days")
+                .setView(numberPicker)
+                .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (numberPicker != null) {
+                            DebugUtils.log("Number : " + numberPicker.getValue());
+                            days = numberPicker.getValue();
+                        }
+                    }
+                });
+        alertDialog = builder.create();
+        UIUtils.showDialog(getActivity(), alertDialog);
+    }
+
+    @OnClick(R.id.home_search_done)
+    void onSearchClicked() {
+        if (getActivity() != null) {
+            if (days == null) {
+                ((BaseActivity) getActivity()).makeToast("Please enter number of days to plan");
+            } else if (destinationPlaceId == null) {
+                ((BaseActivity) getActivity()).makeToast("Please select destination place");
+            } else {
+                ((BaseActivity) getActivity()).openPlannerActivity(days, destinationPlaceId);
+            }
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -79,6 +136,7 @@ public class HomeSearchFragment extends BaseFragment {
                 AutoCompleteResponse obj = data.getParcelableExtra(AppConstants.INTENT_EXTRAS.EXTRA_LOCATION_AUTOCOMPLETE);
 
                 destination.setText(obj.getText());
+                destinationPlaceId = obj.get_id();
             }
         }
     }
