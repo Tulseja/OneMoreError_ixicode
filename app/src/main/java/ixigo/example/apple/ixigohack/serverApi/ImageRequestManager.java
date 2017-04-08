@@ -5,9 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.makeramen.roundedimageview.RoundedImageView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 
 /**
@@ -21,22 +19,12 @@ public class ImageRequestManager {
             if (AndroidUtils.isEmpty(imageUrl)) {
                 // empty image
             } else {
-                if (imageView instanceof RoundedImageView || imageView instanceof CircleImageView) {
-                    Glide.with(context)
-                            .load(imageUrl)
-                            .crossFade()
-                            .thumbnail(1)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .dontAnimate()
-                            .into(imageView);
-                } else {
-                    Glide.with(context)
-                            .load(imageUrl)
-                            .crossFade()
-                            .thumbnail(1)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(imageView);
-                }
+                Glide.with(context)
+                        .load(imageUrl)
+                        .crossFade()
+                        .thumbnail(1)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(imageView);
             }
         }
     }

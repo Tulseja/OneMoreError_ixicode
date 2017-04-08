@@ -25,4 +25,8 @@ public interface AppConstants {
         String EXTRA_FRAGMENT_DIALOG_TITLE = "EXTRA_FRAGMENT_DIALOG_TITLE";
         String EXTRA_FRAGMENT_PLACE_PICKER_RESPONSE = "EXTRA_FRAGMENT_PLACE_PICKER_RESPONSE";
     }
+
+    public interface FIREBASE_CONSTANTS {
+        String FIREBASE_ROOT_NODE = "plans";
+    }
 }

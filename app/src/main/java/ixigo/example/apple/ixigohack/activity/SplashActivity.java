@@ -41,27 +41,6 @@ public class SplashActivity extends BaseActivity {
                 switchToHomeOrLoginActivity();
             }
         }, splashDuration);
-        // ** hello firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("copyright");
-        myRef.setValue("©2017 OneMoreError. All rights Reserved");
-
-
-
-        myRef.setValue("Hello, World!");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-            }
-        });
     }
 
     private void switchToHomeOrLoginActivity() {

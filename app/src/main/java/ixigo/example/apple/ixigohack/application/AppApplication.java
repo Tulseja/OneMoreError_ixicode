@@ -1,8 +1,10 @@
 package ixigo.example.apple.ixigohack.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -24,6 +26,7 @@ public class AppApplication extends Application {
         super.onCreate();
         sInstance = this;
     }
+
 
     public static AppApplication getInstance() {
         if (sInstance == null)
