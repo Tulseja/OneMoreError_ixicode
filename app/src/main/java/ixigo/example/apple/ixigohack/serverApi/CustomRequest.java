@@ -6,19 +6,30 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ixigo.example.apple.ixigohack.application.AppApplication;
 import ixigo.example.apple.ixigohack.extras.RequestTags;
+import ixigo.example.apple.ixigohack.objects.autoComplete.AutoCompleteResponse;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
+import ixigo.example.apple.ixigohack.utils.VolleyUtils;
 
 /**
  * Created by apple on 08/04/17.
@@ -120,10 +131,21 @@ public class CustomRequest extends Request<Object> {
 
     @Override
     protected Response<Object> parseNetworkResponse(NetworkResponse response) {
-        if (AndroidUtils.compareString(tag, RequestTags.AUTOCOMPLETE_LOCATION)) {
+        try {
+            String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            Object responseObject = null;
 
+            if (AndroidUtils.compareString(tag, RequestTags.AUTOCOMPLETE_LOCATION)) {
+                Type listType = new TypeToken<ArrayList<AutoCompleteResponse>>() {
+                }.getType();
+                responseObject = new Gson().fromJson(json, listType);
+            }
+            return Response.success(responseObject, HttpHeaderParser.parseCacheHeaders(response));
+        } catch (UnsupportedEncodingException e) {
+            return Response.error(new ParseError(e));
+        } catch (JsonSyntaxException e) {
+            return Response.error(new ParseError(e));
         }
-        return null;
     }
 
     @Override
