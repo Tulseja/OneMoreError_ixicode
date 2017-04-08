@@ -1,4 +1,4 @@
-package ixigo.example.apple.ixigohack;
+package ixigo.example.apple.ixigohack.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ixigo.example.apple.ixigohack.BR;
+import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.activity.BaseActivity;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.objects.autoComplete.AutoCompleteResponse;

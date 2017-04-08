@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse.PlacesToVisit" />
+    </data>
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/z_margin_small"
+        android:layout_marginLeft="@dimen/z_margin_small"
+        android:layout_marginRight="@dimen/z_margin_small"
+        android:background="@color/white"
+        android:clickable="true"
+        android:elevation="@dimen/z_margin_mini"
+        android:foreground="?attr/selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageOfPlace"
+                android:layout_width="@dimen/planner_list_item_image_size"
+                android:layout_height="@dimen/planner_list_item_image_size"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                app:loadSmallImage="@{data.keyImageUrl}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/z_margin_large">
+
+                <TextView
+                    android:id="@+id/nameOfPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/z_margin_small"
+                    android:text="@{data.name}"
+                    android:textColor="@color/z_text_color_medium_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.getDisplayedActivityTime}"
+                    android:textColor="@color/z_text_color_medium_dark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

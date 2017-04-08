@@ -2,6 +2,7 @@ package ixigo.example.apple.ixigohack.objects.placePicker;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -51,7 +52,7 @@ public class PlacePickerResponse implements Parcelable {
         this.data = data;
     }
 
-    public static class PlacesToVisit implements Parcelable {
+    public static class PlacesToVisit implements Parcelable, Comparable<PlacesToVisit> {
         @SerializedName("address")
         private String address;
         @SerializedName("categoryNames")
@@ -284,6 +285,10 @@ public class PlacePickerResponse implements Parcelable {
             return name;
         }
 
+        public String getDisplayedActivityTime() {
+            return activityStartHour + ":" + activityStartMinute + " to " + activityEndHour + ":" + activityEndMinute;
+        }
+
         public void setName(String name) {
             this.name = name;
         }
@@ -310,6 +315,15 @@ public class PlacePickerResponse implements Parcelable {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        @Override
+        public int compareTo(@NonNull PlacesToVisit o) {
+           int ans = 0;
+
+
+
+            return ans;
         }
     }
 

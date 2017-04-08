@@ -18,7 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ixigo.example.apple.ixigohack.LocationSearchAdapter;
+import ixigo.example.apple.ixigohack.adapters.LocationSearchAdapter;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.application.AppApplication;
 import ixigo.example.apple.ixigohack.extras.RequestTags;
@@ -27,7 +27,6 @@ import ixigo.example.apple.ixigohack.serverApi.AppRequestListener;
 import ixigo.example.apple.ixigohack.serverApi.CustomRequest;
 import ixigo.example.apple.ixigohack.urls.AutocompleteUrls;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
-import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
 /**
  * Created by apple on 08/04/17.

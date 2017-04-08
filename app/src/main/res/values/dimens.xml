@@ -26,4 +26,7 @@
     <!-- navigation drawer -->
     <dimen name="z_drawer_header_top_padding">56dp</dimen>
     <dimen name="z_drawer_profile_image_height">64dp</dimen>
+
+    <!-- planner list item -->
+    <dimen name="planner_list_item_image_size">100dp</dimen>
 </resources>
