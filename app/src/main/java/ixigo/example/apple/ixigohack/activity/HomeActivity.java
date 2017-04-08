@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
+import ixigo.example.apple.ixigohack.fragment.HomeSearchFragment;
 import ixigo.example.apple.ixigohack.fragment.HomeTrendingFragment;
 
 /**
@@ -49,7 +50,11 @@ public class HomeActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return HomeTrendingFragment.newInstance();
+            if (position == 0) {
+                return HomeTrendingFragment.newInstance();
+            } else {
+                return HomeSearchFragment.newInstance();
+            }
         }
 
         @Override
@@ -65,5 +70,10 @@ public class HomeActivity extends BaseActivity {
                 return getResources().getString(R.string.home_page_search);
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

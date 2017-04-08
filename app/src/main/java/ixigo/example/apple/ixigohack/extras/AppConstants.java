@@ -12,4 +12,8 @@ public interface AppConstants {
         int ACTIVITY_LOCATION_SELECTION_DESTINATION = 2;
         int ACTIVITY_GOOGLE_LOGIN = 3;
     }
+
+    public interface INTENT_EXTRAS {
+        String EXTRA_LOCATION_AUTOCOMPLETE = "EXTRA_LOCATION_AUTOCOMPLETE";
+    }
 }
