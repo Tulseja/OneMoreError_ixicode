@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.preferences.ZPreferences;
 
@@ -26,6 +27,7 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity_layout);
+        ButterKnife.bind(this);
 
         new Timer().schedule(new TimerTask() {
             @Override
