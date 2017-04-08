@@ -30,6 +30,7 @@ public class PlannerActivity extends BaseActivity {
     FloatingActionButton floatingActionButton;
 
     String placeId;
+    String placeName;
     int days;
     MyPagerAdapter adapter;
 
@@ -45,7 +46,10 @@ public class PlannerActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         placeId = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_ID_PLANNER);
+        placeName = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_NAME_PLANNER);
         days = getIntent().getIntExtra(AppConstants.INTENT_EXTRAS.EXTRA_DAYS_PLANNER, 0);
+
+        setToolbar("Plan " + placeName + " trip");
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
@@ -56,7 +60,7 @@ public class PlannerActivity extends BaseActivity {
     @OnClick(R.id.fab_planner)
     void onFabClick() {
         if (getActivity() != null) {
-            ((BaseActivity) getActivity()).openPlacePickerActivity(placeId, viewPager.getCurrentItem());
+            ((BaseActivity) getActivity()).openPlacePickerActivity(placeId, placeName, viewPager.getCurrentItem());
         }
     }
 

@@ -1,5 +1,6 @@
 package ixigo.example.apple.ixigohack.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -15,8 +16,13 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.util.LinkProperties;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.preferences.ZPreferences;
+import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
 /**
  * Created by apple on 08/04/17.
@@ -41,6 +47,28 @@ public class SplashActivity extends BaseActivity {
                 switchToHomeOrLoginActivity();
             }
         }, splashDuration);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Branch branch = Branch.getInstance();
+
+        branch.initSession(new Branch.BranchUniversalReferralInitListener() {
+            @Override
+            public void onInitFinished(BranchUniversalObject branchUniversalObject, LinkProperties linkProperties, BranchError error) {
+                if (error == null) {
+                    
+                } else {
+                    DebugUtils.log(error.getMessage());
+                }
+            }
+        }, this.getIntent().getData(), this);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent(intent);
     }
 
     private void switchToHomeOrLoginActivity() {

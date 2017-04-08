@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/z_margin_large"
-        android:text="Select Origin" />
+        android:text="Select Origin"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/home_search_destination"

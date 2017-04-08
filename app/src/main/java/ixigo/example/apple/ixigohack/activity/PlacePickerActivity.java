@@ -46,7 +46,7 @@ import ixigo.example.apple.ixigohack.utils.DebugUtils;
 public class PlacePickerActivity extends BaseActivity implements AppRequestListener {
 
     PlacePickerResponse placePickerResponse;
-    String placeId;
+    String placeId, placeName;
     int fragmentPosition;
 
     @BindView(R.id.place_picker_viewpager)
@@ -70,7 +70,10 @@ public class PlacePickerActivity extends BaseActivity implements AppRequestListe
         EventBusHelper.register(this);
 
         placeId = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_ID_PLANNER);
+        placeName = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_NAME_PLANNER);
         fragmentPosition = getIntent().getIntExtra(AppConstants.INTENT_EXTRAS.EXTRA_FRAGMENT_POSITION, 0);
+
+        setToolbar("Interests in " + placeName);
 
         loadData();
     }

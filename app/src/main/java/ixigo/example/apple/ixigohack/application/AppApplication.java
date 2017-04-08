@@ -11,6 +11,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.Volley;
 
+import io.branch.referral.Branch;
+
 /**
  * Created by Ashish on 30/08/16.
  */
@@ -24,6 +26,8 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+
+        Branch.getAutoInstance(this);
     }
 
 

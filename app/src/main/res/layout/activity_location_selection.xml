@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="Search"
+                android:hint="Enter Location"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:lines="1"

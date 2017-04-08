@@ -33,9 +33,11 @@ public class HomeSearchFragment extends BaseFragment {
     TextView origin;
     @BindView(R.id.home_search_destination)
     TextView destination;
+    @BindView(R.id.home_search_days)
+    TextView numberOfDays;
 
     Integer days;
-    String destinationPlaceId;
+    String destinationPlaceId, destinationPlaceName;
 
     AlertDialog alertDialog;
     MaterialNumberPicker numberPicker;
@@ -100,6 +102,9 @@ public class HomeSearchFragment extends BaseFragment {
                         if (numberPicker != null) {
                             DebugUtils.log("Number : " + numberPicker.getValue());
                             days = numberPicker.getValue();
+
+                            numberOfDays.setText("Days : " + days);
+                            numberOfDays.setTextColor(getActivity().getResources().getColor(R.color.z_text_color_medium_dark));
                         }
                     }
                 });
@@ -115,7 +120,7 @@ public class HomeSearchFragment extends BaseFragment {
             } else if (destinationPlaceId == null) {
                 ((BaseActivity) getActivity()).makeToast("Please select destination place");
             } else {
-                ((BaseActivity) getActivity()).openPlannerActivity(days, destinationPlaceId);
+                ((BaseActivity) getActivity()).openPlannerActivity(days, destinationPlaceId, destinationPlaceName);
             }
         }
     }
@@ -134,7 +139,9 @@ public class HomeSearchFragment extends BaseFragment {
                 AutoCompleteResponse obj = data.getParcelableExtra(AppConstants.INTENT_EXTRAS.EXTRA_LOCATION_AUTOCOMPLETE);
 
                 destination.setText(obj.getText());
+                destination.setTextColor(getActivity().getResources().getColor(R.color.z_text_color_medium_dark));
                 destinationPlaceId = obj.get_id();
+                destinationPlaceName = obj.getText();
             }
         }
     }
