@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "ixigo.example.apple.ixigohack"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8 // default is 4
+    }
+    productFlavors {
+        dev {
+            // To avoid using legacy multidex, set minSdkVersion to 21 or higher.
+            minSdkVersion 21
+            resConfigs "en", "xxhdpi"
+        }
+
+        prod {
+            // required empty
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.android.support:design:25.3.0'
+
+    compile 'com.makeramen:roundedimageview:2.2.1'
+
+    // butterknife
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    compile 'com.google.code.gson:gson:2.7'
+
+    compile 'com.android.support:recyclerview-v7:25.3.0'
+
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+
+    // VOLLEY
+    compile 'com.android.volley:volley:1.0.0'
+
+    // Glide image loading
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    // GLIDE integration with Volley
+    compile 'com.github.bumptech.glide:volley-integration:1.4.0@aar'
+
+    // eventbus android
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    // google login
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
+
+    // android image slider
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+}
