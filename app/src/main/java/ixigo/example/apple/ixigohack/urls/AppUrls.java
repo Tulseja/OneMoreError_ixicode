@@ -5,5 +5,5 @@ package ixigo.example.apple.ixigohack.urls;
  */
 public class AppUrls {
 
-    public static final String BASE_URL = "http://35.154.84.247/api/"; // testing
+    public static final String BASE_URL = "http://build2.ixigo.com/";
 }
