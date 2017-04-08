@@ -24,6 +24,7 @@ public class ImageRequestManager {
                         .crossFade()
                         .thumbnail(1)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .centerCrop()
                         .into(imageView);
             }
         }

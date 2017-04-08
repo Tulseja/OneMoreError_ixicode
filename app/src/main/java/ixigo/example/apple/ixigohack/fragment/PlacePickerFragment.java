@@ -72,15 +72,17 @@ public class PlacePickerFragment extends BaseFragment implements PlacePickerList
 
         mData = getArguments().getParcelableArrayList(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_PLACE_PICKER_RESPONSE);
 
-        adapter = new PlacePickerListingAdapter(getActivity(), mData, this);
-        recyclerView.setAdapter(adapter);
+        if (mData != null) {
+            adapter = new PlacePickerListingAdapter(getActivity(), mData, this);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
     public void onPlaceClicked(PlacePickerResponse.PlacesToVisit data) {
         data.setActivityStartHour(null);
 
-        DialogFragment newFragment = PlacePickerActivity.TimePickerFragment.newInstance(data,
+        DialogFragment newFragment = TimePickerFragment.newInstance(data,
                 0, getResources().getString(R.string.time_picker_title_select_start_time));
         newFragment.show(getChildFragmentManager(), "timePicker");
     }

@@ -8,5 +8,7 @@
 
     <!-- time picker fragment-->
     <string name="time_picker_title_select_start_time">Select start time for this activity</string>
+    <string name="time_picker_title_select_start_time_update">Select updated start time for this activity</string>
     <string name="time_picker_title_select_end_time">Select end time for this activity</string>
+    <string name="time_picker_title_select_end_time_update">Select updated end time for this activity</string>
 </resources>

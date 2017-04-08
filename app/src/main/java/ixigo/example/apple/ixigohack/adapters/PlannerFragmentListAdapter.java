@@ -13,9 +13,12 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.BR;
 import ixigo.example.apple.ixigohack.R;
+import ixigo.example.apple.ixigohack.objects.FirebaseDataObject;
 import ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse;
+import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 
 /**
  * Created by apple on 08/04/17.
@@ -24,18 +27,20 @@ import ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse;
 public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFragmentListAdapter.PlannerHolder> {
 
     Context context;
-    List<PlacePickerResponse.PlacesToVisit> mData;
+    List<FirebaseDataObject> mData;
 
     LayoutInflater layoutInflater;
+    PlannerFragmentInterface plannerFragmentInterface;
 
-    public void addData(PlacePickerResponse.PlacesToVisit data) {
+    public void addData(FirebaseDataObject data) {
         mData.add(0, data);
         Collections.sort(mData);
         notifyDataSetChanged();
     }
 
-    public PlannerFragmentListAdapter(Context context) {
+    public PlannerFragmentListAdapter(Context context, PlannerFragmentInterface plannerFragmentInterface) {
         this.context = context;
+        this.plannerFragmentInterface = plannerFragmentInterface;
         mData = new ArrayList<>();
 
         layoutInflater = LayoutInflater.from(context);
@@ -56,9 +61,29 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
         return mData.size();
     }
 
+    public void updateData(FirebaseDataObject data) {
+        if (mData != null) {
+            for (int i = 0; i < mData.size(); i++) {
+                if (AndroidUtils.compareString(mData.get(i).getFirebaseKey(), data.getFirebaseKey())) {
+                    mData.set(i, data);
+                    notifyItemChanged(i);
+                    break;
+                }
+            }
+        }
+    }
+
     class PlannerHolder extends RecyclerView.ViewHolder {
 
         private ViewDataBinding binding;
+        FirebaseDataObject data;
+
+        @OnClick(R.id.card_view)
+        void onItemClick() {
+            if (context != null && data != null) {
+                plannerFragmentInterface.onUpdateClick(data);
+            }
+        }
 
         public PlannerHolder(View itemView) {
             super(itemView);
@@ -67,9 +92,14 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
             binding = DataBindingUtil.bind(itemView);
         }
 
-        public void setData(PlacePickerResponse.PlacesToVisit placesToVisit) {
-            binding.setVariable(BR.data, placesToVisit);
+        public void setData(FirebaseDataObject obj) {
+            this.data = obj;
+            binding.setVariable(BR.data, obj);
             binding.executePendingBindings();
         }
+    }
+
+    public interface PlannerFragmentInterface {
+        void onUpdateClick(FirebaseDataObject obj);
     }
 }

@@ -1,5 +1,6 @@
 package ixigo.example.apple.ixigohack.eventBus;
 
+import ixigo.example.apple.ixigohack.objects.FirebaseDataObject;
 import ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse;
 
 /**
@@ -7,6 +8,58 @@ import ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse;
  */
 
 public class PlacePickerEventBus {
+
+    public static class OnUdpateEventStartDateEvent {
+        FirebaseDataObject data;
+        int position;
+
+        public OnUdpateEventStartDateEvent(FirebaseDataObject data, int position) {
+            this.data = data;
+            this.position = position;
+        }
+
+        public FirebaseDataObject getData() {
+            return data;
+        }
+
+        public void setData(FirebaseDataObject data) {
+            this.data = data;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+    }
+
+    public static class OnUpdateEventCompleteEvent {
+        FirebaseDataObject data;
+        int position;
+
+        public OnUpdateEventCompleteEvent(FirebaseDataObject data, int position) {
+            this.data = data;
+            this.position = position;
+        }
+
+        public FirebaseDataObject getData() {
+            return data;
+        }
+
+        public void setData(FirebaseDataObject data) {
+            this.data = data;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+    }
 
     public static class OnPlannerStartDateSelected {
         PlacePickerResponse.PlacesToVisit data;
@@ -25,6 +78,7 @@ public class PlacePickerEventBus {
     }
 
     public static class OnPlacePicked {
+
         PlacePickerResponse.PlacesToVisit data;
         int fragmentPosition;
 
