@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IxigoHack.iml" filepath="$PROJECT_DIR$/IxigoHack.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ixicode.iml" filepath="$PROJECT_DIR$/ixicode.iml" />
     </modules>
   </component>
 </project>

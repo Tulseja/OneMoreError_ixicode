@@ -194,7 +194,8 @@ public class BaseActivity extends AppCompatActivity {
     * */
 
     void openLoginActivity() {
-
+        Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(i);
     }
 
     void openHomeActivity() {
