@@ -10,4 +10,7 @@ public interface RequestTags {
 
     // TRENDING PLACES
     String TRENDING_PLACES = "TRENDING_PLACES";
+
+    // place picker
+    String PLACE_PICKER_PLACES_TO_VISIT = "PLACE_PICKER_PLACES_TO_VISIT";
 }

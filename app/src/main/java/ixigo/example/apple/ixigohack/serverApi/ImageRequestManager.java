@@ -24,16 +24,16 @@ public class ImageRequestManager {
                 if (imageView instanceof RoundedImageView || imageView instanceof CircleImageView) {
                     Glide.with(context)
                             .load(imageUrl)
-                            .thumbnail(0.1f)
                             .crossFade()
+                            .thumbnail(1)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .dontAnimate()
                             .into(imageView);
                 } else {
                     Glide.with(context)
                             .load(imageUrl)
-                            .thumbnail(0.1f)
                             .crossFade()
+                            .thumbnail(1)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(imageView);
                 }

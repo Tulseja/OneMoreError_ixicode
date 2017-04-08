@@ -3,16 +3,22 @@ package ixigo.example.apple.ixigohack.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.R;
+import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
+import ixigo.example.apple.ixigohack.eventBus.PlacePickerEventBus;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.fragment.PlannerFragment;
 
@@ -50,7 +56,9 @@ public class PlannerActivity extends BaseActivity {
 
     @OnClick(R.id.fab_planner)
     void onFabClick() {
-
+        if (getActivity() != null) {
+            ((BaseActivity) getActivity()).openPlacePickerActivity(placeId, viewPager.getCurrentItem());
+        }
     }
 
     class MyPagerAdapter extends FragmentStatePagerAdapter {

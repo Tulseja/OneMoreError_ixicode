@@ -212,4 +212,11 @@ public class BaseActivity extends AppCompatActivity {
         intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_DAYS_PLANNER, days);
         startActivity(intent);
     }
+
+    public void openPlacePickerActivity(String placeId, int position) {
+        Intent intent = new Intent(this, PlacePickerActivity.class);
+        intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_ID_PLANNER, placeId);
+        intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_FRAGMENT_POSITION, position);
+        startActivity(intent);
+    }
 }

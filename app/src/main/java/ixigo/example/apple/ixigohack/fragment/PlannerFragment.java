@@ -1,12 +1,18 @@
 package ixigo.example.apple.ixigohack.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.ButterKnife;
 import ixigo.example.apple.ixigohack.R;
+import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
+import ixigo.example.apple.ixigohack.eventBus.PlacePickerEventBus;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 
 /**
@@ -16,6 +22,25 @@ import ixigo.example.apple.ixigohack.extras.AppConstants;
 public class PlannerFragment extends BaseFragment {
 
     int position;
+
+    @Override
+    public void onDestroy() {
+        EventBusHelper.unRegister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PlacePickerEventBus.OnPlacePicked obj) {
+        if (obj != null && position == obj.getFragmentPosition()) {
+            
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBusHelper.register(this);
+    }
 
     public static PlannerFragment newInstance(int position) {
         Bundle args = new Bundle();

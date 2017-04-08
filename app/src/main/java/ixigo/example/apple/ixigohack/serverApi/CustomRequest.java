@@ -27,6 +27,7 @@ import java.util.Map;
 import ixigo.example.apple.ixigohack.application.AppApplication;
 import ixigo.example.apple.ixigohack.extras.RequestTags;
 import ixigo.example.apple.ixigohack.objects.autoComplete.AutoCompleteResponse;
+import ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse;
 import ixigo.example.apple.ixigohack.objects.trending.TrendingFragmentResponse;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
@@ -142,6 +143,8 @@ public class CustomRequest extends Request<Object> {
                 responseObject = new Gson().fromJson(json, listType);
             } else if (AndroidUtils.compareString(tag, RequestTags.TRENDING_PLACES)) {
                 responseObject = VolleyUtils.getResponseObject(json, TrendingFragmentResponse.class);
+            } else if (AndroidUtils.compareString(tag, RequestTags.PLACE_PICKER_PLACES_TO_VISIT)) {
+                responseObject = VolleyUtils.getResponseObject(json, PlacePickerResponse.class);
             }
             return Response.success(responseObject, HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
