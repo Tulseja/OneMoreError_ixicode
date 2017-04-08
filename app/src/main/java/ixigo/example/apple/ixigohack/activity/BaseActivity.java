@@ -194,4 +194,12 @@ public class BaseActivity extends AppCompatActivity {
     * activity opening code
     *
     * */
+
+    void openLoginActivity() {
+
+    }
+
+    void openHomeActivity() {
+
+    }
 }

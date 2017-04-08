@@ -10,18 +10,18 @@ public class ZPreferences {
 
     private static final String KEY = "ixigo.prefs";
 
-    private static final String ACCESS_TOKEN = "HOGTOKENLOGINAPI_NEW";
+    private static final String IS_USER_LOGIN = "IS_USER_LOGIN";
 
-    // ACCESS_TOKEN
-    public static void setAccessToken(Context context, String token) {
+    // IS_USER_LOGIN
+    public static void setIsUserLogin(Context context, boolean loggedIn) {
         SharedPreferences.Editor editor = context.getSharedPreferences(KEY, Context.MODE_PRIVATE).edit();
-        editor.putString(ACCESS_TOKEN, token);
+        editor.putBoolean(IS_USER_LOGIN, loggedIn);
         editor.apply();
     }
 
-    // ACCESS_TOKEN
-    public static String getAccessToken(Context context) {
+    // IS_USER_LOGIN
+    public static boolean getIsUserLogin(Context context) {
         SharedPreferences savedSession = context.getSharedPreferences(KEY, Context.MODE_PRIVATE);
-        return savedSession.getString(ACCESS_TOKEN, null);
+        return savedSession.getBoolean(IS_USER_LOGIN, false);
     }
 }

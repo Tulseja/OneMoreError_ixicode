@@ -26,32 +26,4 @@
     <!-- navigation drawer -->
     <dimen name="z_drawer_header_top_padding">56dp</dimen>
     <dimen name="z_drawer_profile_image_height">64dp</dimen>
-
-    <!-- video -->
-    <dimen name="video_image_width">108dp</dimen>
-    <dimen name="video_image_height">72dp</dimen>
-
-    <!-- video vertical -->
-    <dimen name="video_image_height_vertical">88dp</dimen>
-    <dimen name="video_image_width_vertical">140dp</dimen>
-    <dimen name="video_image_container_width_vertical">150dp</dimen>
-
-    <!-- entity -->
-    <dimen name="entity_listing_image_radius">55dp</dimen>
-
-    <!-- settings fragment -->
-    <dimen name="settings_fragment_image_height">200dp</dimen>
-
-    <!-- donations-->
-    <dimen name="donation_merchant_list_item_height">150dp</dimen>
-
-    <!-- donation history -->
-    <dimen name="donation_history_image_width">100dp</dimen>
-    <dimen name="donation_history_image_height">70dp</dimen>
-
-    <!-- video page -->
-    <dimen name="video_actions_image_height">24dp</dimen>
-
-    <!-- home-->
-    <dimen name="home_following_entity_image_radius">80dp</dimen>
 </resources>
