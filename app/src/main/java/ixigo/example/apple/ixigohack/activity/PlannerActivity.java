@@ -99,7 +99,7 @@ public class PlannerActivity extends BaseActivity {
         FirebaseDatabase database = AppApplication.getFirebaseInstance();
         DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
         DatabaseReference childNode = myRef.child(deviceId);
-        
+
 
         childNode.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
@@ -143,7 +143,16 @@ public class PlannerActivity extends BaseActivity {
                     object.setEndHour(((Long) hashMap.get("endHour")).intValue());
                     object.setStarMin(((Long) hashMap.get("starMin")).intValue());
                     object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
-                    object.setImage(hashMap.get("image").toString());
+                    try {
+                        object.setPlaceId(hashMap.get("placeId").toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        object.setImage(hashMap.get("image").toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     object.setName(hashMap.get("name").toString());
                     object.setStartHour(((Long) hashMap.get("startHour")).intValue());
 

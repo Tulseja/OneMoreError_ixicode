@@ -43,7 +43,7 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
             mData = new ArrayList<>();
         }
         for (int i = 0; i < mData.size(); i++) {
-            if (mData.get(i).getFirebaseKey() == data.getFirebaseKey()) {
+            if (AndroidUtils.compareString(mData.get(i).getFirebaseKey(), data.getFirebaseKey())) {
                 mData.set(i, data);
                 notifyItemChanged(i);
                 break;
