@@ -99,6 +99,7 @@ public class PlannerActivity extends BaseActivity {
         FirebaseDatabase database = AppApplication.getFirebaseInstance();
         DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
         DatabaseReference childNode = myRef.child(deviceId);
+        
 
         childNode.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override

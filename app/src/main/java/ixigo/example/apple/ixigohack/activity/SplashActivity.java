@@ -3,6 +3,7 @@ package ixigo.example.apple.ixigohack.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +36,9 @@ public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.progressbar_splash)
     ProgressBar progressBar;
+    @BindView(R.id.splash_image)
+    ImageView splashImage ;
+
 
     int splashDuration = 1000;
 
@@ -43,6 +47,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+        splashImage.setScaleType(ImageView.ScaleType.CENTER);
 
         new Timer().schedule(new TimerTask() {
             @Override

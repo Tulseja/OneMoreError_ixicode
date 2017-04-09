@@ -2,11 +2,13 @@ package ixigo.example.apple.ixigohack.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.transition.Visibility;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -55,8 +57,10 @@ public class PlacePickerActivity extends BaseActivity implements AppRequestListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_picker);
         ButterKnife.bind(this);
+        setProgressAndErrorLayoutVariables();
 
         EventBusHelper.register(this);
+        tabLayout.setVisibility(View.GONE);
 
         placeId = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_ID_PLANNER);
         placeName = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_NAME_PLANNER);
@@ -78,20 +82,23 @@ public class PlacePickerActivity extends BaseActivity implements AppRequestListe
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+        tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
     public void onRequestStarted(String requestTag) {
         if (requestTag.equalsIgnoreCase(RequestTags.PLACE_PICKER_PLACES_TO_VISIT)) {
-
+            showProgressLayout() ;
+            hideErrorLayout();
         }
     }
 
     @Override
     public void onRequestFailed(String requestTag, VolleyError error, boolean networkError) {
         if (requestTag.equalsIgnoreCase(RequestTags.PLACE_PICKER_PLACES_TO_VISIT)) {
-
+            hideProgressLayout();
+            showErrorLayout();
         }
     }
 
