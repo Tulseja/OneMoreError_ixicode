@@ -17,6 +17,7 @@ public class FirebaseDataObject implements Comparable<FirebaseDataObject>, Parce
     Integer startHour, starMin, endHour, endMin;
     String firebaseKey;
     int dayPos;
+    String placeId;
 
     public FirebaseDataObject() {
 
@@ -30,17 +31,7 @@ public class FirebaseDataObject implements Comparable<FirebaseDataObject>, Parce
         this.endHour = data.getActivityEndHour();
         this.endMin = data.getActivityEndMinute();
         this.dayPos = positionFragment;
-    }
-
-    public FirebaseDataObject(String image, String name, Integer startHour, Integer starMin, Integer endHour, Integer endMin, String firebaseKey, int dayPos) {
-        this.image = image;
-        this.name = name;
-        this.startHour = startHour;
-        this.starMin = starMin;
-        this.endHour = endHour;
-        this.endMin = endMin;
-        this.firebaseKey = firebaseKey;
-        this.dayPos = dayPos;
+        this.placeId = data.getId();
     }
 
     protected FirebaseDataObject(Parcel in) {
@@ -52,6 +43,7 @@ public class FirebaseDataObject implements Comparable<FirebaseDataObject>, Parce
         endHour = (Integer) in.readValue(Integer.class.getClassLoader());
         endMin = (Integer) in.readValue(Integer.class.getClassLoader());
         dayPos = in.readInt();
+        placeId = in.readString();
     }
 
     @Override
@@ -64,6 +56,7 @@ public class FirebaseDataObject implements Comparable<FirebaseDataObject>, Parce
         dest.writeValue(endHour);
         dest.writeValue(endMin);
         dest.writeInt(dayPos);
+        dest.writeString(placeId);
     }
 
     @Override
@@ -82,6 +75,14 @@ public class FirebaseDataObject implements Comparable<FirebaseDataObject>, Parce
             return new FirebaseDataObject[size];
         }
     };
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
 
     public String getDisplayedActivityTime() {
         return startHour + ":" + starMin + " to " + endHour + ":" + endMin;

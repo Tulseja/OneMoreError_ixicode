@@ -113,6 +113,11 @@ public class PlannerActivity extends BaseActivity {
                     object.setStarMin(((Long) hashMap.get("starMin")).intValue());
                     object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
                     try {
+                        object.setPlaceId(hashMap.get("placeId").toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
                         object.setImage(hashMap.get("image").toString());
                     } catch (Exception e) {
                         e.printStackTrace();

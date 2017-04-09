@@ -57,6 +57,7 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
     PlannerFragmentListAdapter adapter;
 
     String deviceId;
+    String placeId;
 
     @Override
     public void onDestroy() {
@@ -66,7 +67,8 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onMessageEvent(FirebaseEventBus.OnFirebaseEventAdded obj) {
-        if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position) {
+        if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position
+                && AndroidUtils.compareString(obj.getData().getPlaceId(), placeId)) {
             if (adapter != null) {
                 adapter.addData(obj.getData());
             }
@@ -75,7 +77,8 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onMessageEvent(FirebaseEventBus.OnFirebaseEventChanged obj) {
-        if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position) {
+        if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position
+                && AndroidUtils.compareString(obj.getData().getPlaceId(), placeId)) {
             if (adapter != null) {
                 adapter.changeData(obj.getData());
             }
@@ -159,10 +162,11 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
         EventBusHelper.register(this);
     }
 
-    public static PlannerFragment newInstance(int position, String deviceId) {
+    public static PlannerFragment newInstance(int position, String deviceId, String placeId) {
         Bundle args = new Bundle();
         args.putInt(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_POSITION, position);
         args.putString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_DEVICE_ID, deviceId);
+        args.putString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_PLACE_ID, placeId);
 
         PlannerFragment fragment = new PlannerFragment();
         fragment.setArguments(args);
@@ -183,6 +187,7 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
 
         position = getArguments().getInt(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_POSITION);
         deviceId = getArguments().getString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_DEVICE_ID);
+        placeId = getArguments().getString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_PLACE_ID);
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
