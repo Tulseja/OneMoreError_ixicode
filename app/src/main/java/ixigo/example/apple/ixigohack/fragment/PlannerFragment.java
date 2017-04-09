@@ -70,7 +70,7 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
         if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position
                 && AndroidUtils.compareString(obj.getData().getPlaceId(), placeId)) {
             if (adapter != null) {
-                adapter.addData(obj.getData());
+//                adapter.addData(obj.getData());
             }
         }
     }
