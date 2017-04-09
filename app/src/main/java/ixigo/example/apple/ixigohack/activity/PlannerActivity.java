@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +29,7 @@ import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.fragment.PlannerFragment;
 import ixigo.example.apple.ixigohack.objects.FirebaseDataObject;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
+import ixigo.example.apple.ixigohack.utils.AppUtils;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
 /**
@@ -63,6 +66,7 @@ public class PlannerActivity extends BaseActivity {
         placeId = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_ID_PLANNER);
         placeName = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_NAME_PLANNER);
         days = getIntent().getIntExtra(AppConstants.INTENT_EXTRAS.EXTRA_DAYS_PLANNER, 0);
+        deviceId = getIntent().getStringExtra(AppConstants.INTENT_EXTRAS.EXTRA_ANDROID_DEVICE_ID);
 
         setToolbar("Plan " + placeName + " trip");
 
@@ -71,9 +75,24 @@ public class PlannerActivity extends BaseActivity {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(days);
 
-        deviceId = AndroidUtils.getDeviceId(this);
-
         loadData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                AppUtils.getInstance().doBranchShare(this, deviceId, placeName, days, placeId);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadData() {
@@ -93,7 +112,11 @@ public class PlannerActivity extends BaseActivity {
                     object.setEndHour(((Long) hashMap.get("endHour")).intValue());
                     object.setStarMin(((Long) hashMap.get("starMin")).intValue());
                     object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
-                    object.setImage(hashMap.get("image").toString());
+                    try {
+                        object.setImage(hashMap.get("image").toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     object.setName(hashMap.get("name").toString());
                     object.setStartHour(((Long) hashMap.get("startHour")).intValue());
 
@@ -106,6 +129,22 @@ public class PlannerActivity extends BaseActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 DebugUtils.log("changed");
+                try {
+                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                    FirebaseDataObject object = new FirebaseDataObject();
+                    object.setFirebaseKey(hashMap.get("firebaseKey").toString());
+                    object.setEndMin(((Long) hashMap.get("endMin")).intValue());
+                    object.setEndHour(((Long) hashMap.get("endHour")).intValue());
+                    object.setStarMin(((Long) hashMap.get("starMin")).intValue());
+                    object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
+                    object.setImage(hashMap.get("image").toString());
+                    object.setName(hashMap.get("name").toString());
+                    object.setStartHour(((Long) hashMap.get("startHour")).intValue());
+
+                    EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventChanged(object));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -140,7 +179,7 @@ public class PlannerActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return PlannerFragment.newInstance(position);
+            return PlannerFragment.newInstance(position, deviceId);
         }
 
         @Override

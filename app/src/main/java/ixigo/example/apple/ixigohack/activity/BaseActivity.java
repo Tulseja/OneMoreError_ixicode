@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
+import ixigo.example.apple.ixigohack.utils.AndroidUtils;
 
 
 /**
@@ -206,11 +207,15 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openPlannerActivity(int days, String placeId, String placeName) {
+    public void openPlannerActivity(int days, String placeId, String placeName, String deviceId) {
         Intent intent = new Intent(this, PlannerActivity.class);
         intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_ID_PLANNER, placeId);
         intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_PLACE_NAME_PLANNER, placeName);
         intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_DAYS_PLANNER, days);
+        if (deviceId == null) {
+            deviceId = AndroidUtils.getDeviceId(this);
+        }
+        intent.putExtra(AppConstants.INTENT_EXTRAS.EXTRA_ANDROID_DEVICE_ID, deviceId);
         startActivity(intent);
     }
 

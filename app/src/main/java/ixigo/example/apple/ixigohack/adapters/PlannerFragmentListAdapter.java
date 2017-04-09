@@ -38,6 +38,19 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
         notifyDataSetChanged();
     }
 
+    public void changeData(FirebaseDataObject data) {
+        if (mData == null) {
+            mData = new ArrayList<>();
+        }
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).getFirebaseKey() == data.getFirebaseKey()) {
+                mData.set(i, data);
+                notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
     public PlannerFragmentListAdapter(Context context, PlannerFragmentInterface plannerFragmentInterface) {
         this.context = context;
         this.plannerFragmentInterface = plannerFragmentInterface;

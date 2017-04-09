@@ -73,6 +73,15 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onMessageEvent(FirebaseEventBus.OnFirebaseEventChanged obj) {
+        if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position) {
+            if (adapter != null) {
+                adapter.changeData(obj.getData());
+            }
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PlacePickerEventBus.OnPlacePicked obj) {
         if (obj != null && position == obj.getFragmentPosition()) {
@@ -150,9 +159,10 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
         EventBusHelper.register(this);
     }
 
-    public static PlannerFragment newInstance(int position) {
+    public static PlannerFragment newInstance(int position, String deviceId) {
         Bundle args = new Bundle();
         args.putInt(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_POSITION, position);
+        args.putString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_DEVICE_ID, deviceId);
 
         PlannerFragment fragment = new PlannerFragment();
         fragment.setArguments(args);
@@ -171,9 +181,8 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        deviceId = AndroidUtils.getDeviceId(getActivity());
-
         position = getArguments().getInt(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_POSITION);
+        deviceId = getArguments().getString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_DEVICE_ID);
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);

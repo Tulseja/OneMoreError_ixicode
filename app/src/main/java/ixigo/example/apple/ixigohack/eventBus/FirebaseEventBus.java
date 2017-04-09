@@ -24,4 +24,21 @@ public class FirebaseEventBus {
             this.data = data;
         }
     }
+
+    public static class OnFirebaseEventChanged {
+
+        FirebaseDataObject data;
+
+        public OnFirebaseEventChanged(FirebaseDataObject data) {
+            this.data = data;
+        }
+
+        public FirebaseDataObject getData() {
+            return data;
+        }
+
+        public void setData(FirebaseDataObject data) {
+            this.data = data;
+        }
+    }
 }

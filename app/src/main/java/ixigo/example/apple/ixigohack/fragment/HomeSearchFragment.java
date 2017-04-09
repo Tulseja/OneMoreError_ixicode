@@ -120,7 +120,7 @@ public class HomeSearchFragment extends BaseFragment {
             } else if (destinationPlaceId == null) {
                 ((BaseActivity) getActivity()).makeToast("Please select destination place");
             } else {
-                ((BaseActivity) getActivity()).openPlannerActivity(days, destinationPlaceId, destinationPlaceName);
+                ((BaseActivity) getActivity()).openPlannerActivity(days, destinationPlaceId, destinationPlaceName, null);
             }
         }
     }

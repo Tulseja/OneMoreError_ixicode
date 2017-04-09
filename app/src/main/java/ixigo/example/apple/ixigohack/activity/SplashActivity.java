@@ -11,6 +11,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,6 +23,7 @@ import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.util.LinkProperties;
 import ixigo.example.apple.ixigohack.R;
+import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.preferences.ZPreferences;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
 
@@ -58,7 +61,19 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onInitFinished(BranchUniversalObject branchUniversalObject, LinkProperties linkProperties, BranchError error) {
                 if (error == null) {
-                    
+                    try {
+                        JSONObject sessionParams = Branch.getInstance().getLatestReferringParams();
+                        if (sessionParams != null && sessionParams.has(AppConstants.BRANCH.BRANCH_ANDROID_ID)) {
+                            int days = Integer.parseInt(sessionParams.getString(AppConstants.BRANCH.BRANCH_DAYS));
+                            String placeId = sessionParams.getString(AppConstants.BRANCH.BRANCH_PLACE_ID);
+                            String placeName = sessionParams.getString(AppConstants.BRANCH.BRANCH_PLACE_NAME);
+                            String androidId = sessionParams.getString(AppConstants.BRANCH.BRANCH_ANDROID_ID);
+                            openPlannerActivity(days, placeId, placeName, androidId);
+                            finish();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     DebugUtils.log(error.getMessage());
                 }

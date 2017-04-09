@@ -8,9 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.branch.referral.Branch;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.fragment.HomeSearchFragment;
@@ -40,6 +43,26 @@ public class HomeActivity extends BaseActivity {
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        checkForDeepLink();
+    }
+
+    private void checkForDeepLink() {
+        if (isActivityResumed) {
+            try {
+                JSONObject sessionParams = Branch.getInstance().getLatestReferringParams();
+                if (sessionParams != null && sessionParams.has(AppConstants.BRANCH.BRANCH_ANDROID_ID)) {
+                    int days = Integer.parseInt(sessionParams.getString(AppConstants.BRANCH.BRANCH_DAYS));
+                    String placeId = sessionParams.getString(AppConstants.BRANCH.BRANCH_PLACE_ID);
+                    String placeName = sessionParams.getString(AppConstants.BRANCH.BRANCH_PLACE_NAME);
+                    String androidId = sessionParams.getString(AppConstants.BRANCH.BRANCH_ANDROID_ID);
+                    openPlannerActivity(days, placeId, placeName, androidId);
+                    finish();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {
