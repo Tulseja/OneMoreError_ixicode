@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -56,6 +57,9 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
     LinearLayoutManager layoutManager;
     PlannerFragmentListAdapter adapter;
 
+    @BindView(R.id.empty_layout)
+    LinearLayout emptyLayout;
+
     String deviceId;
     String placeId;
 
@@ -71,6 +75,8 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
                 && AndroidUtils.compareString(obj.getData().getPlaceId(), placeId)) {
             if (adapter != null) {
                 adapter.addData(obj.getData());
+
+                emptyLayout.setVisibility(View.GONE);
             }
         }
     }
@@ -181,6 +187,8 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        emptyLayout.setVisibility(View.VISIBLE);
 
         position = getArguments().getInt(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_POSITION);
         deviceId = getArguments().getString(AppConstants.FRAGMENT_EXTRAS.EXTRA_FRAGMENT_DEVICE_ID);
