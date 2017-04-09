@@ -27,6 +27,7 @@ import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.preferences.ZPreferences;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
+import ixigo.example.apple.ixigohack.utils.UIUtils;
 
 /**
  * Created by apple on 08/04/17.
@@ -37,7 +38,7 @@ public class SplashActivity extends BaseActivity {
     @BindView(R.id.progressbar_splash)
     ProgressBar progressBar;
     @BindView(R.id.splash_image)
-    ImageView splashImage ;
+    ImageView splashImage;
 
 
     int splashDuration = 1000;
@@ -49,7 +50,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        splashImage.setScaleType(ImageView.ScaleType.CENTER);
+
+        UIUtils.loadImage(splashImage, R.drawable.plane);
 
         new Timer().schedule(new TimerTask() {
             @Override
