@@ -36,7 +36,7 @@ import ixigo.example.apple.ixigohack.utils.DebugUtils;
  * Created by apple on 08/04/17.
  */
 
-public class PlannerActivity extends BaseActivity {
+public class PlannerActivity extends BaseActivity implements ChildEventListener {
 
     @BindView(R.id.planner_viewpager)
     ViewPager viewPager;
@@ -54,7 +54,23 @@ public class PlannerActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        removeFirebaseCallbacks();
+
         super.onDestroy();
+    }
+
+    private void removeFirebaseCallbacks() {
+        try {
+            FirebaseDatabase database = AppApplication.getFirebaseInstance();
+            DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
+            DatabaseReference childNode = myRef.child(deviceId);
+
+
+            childNode.orderByKey().removeEventListener(this);
+            childNode.removeEventListener(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -101,107 +117,7 @@ public class PlannerActivity extends BaseActivity {
         DatabaseReference childNode = myRef.child(deviceId);
 
 
-        childNode.orderByKey().addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                DebugUtils.log("added");
-                try {
-                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                    FirebaseDataObject object = new FirebaseDataObject();
-                    object.setFirebaseKey(hashMap.get("firebaseKey").toString());
-                    object.setEndMin(((Long) hashMap.get("endMin")).intValue());
-                    object.setEndHour(((Long) hashMap.get("endHour")).intValue());
-                    object.setStarMin(((Long) hashMap.get("starMin")).intValue());
-                    object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
-                    try {
-                        object.setPlaceId(hashMap.get("placeId").toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        object.setImage(hashMap.get("image").toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    object.setName(hashMap.get("name").toString());
-                    object.setStartHour(((Long) hashMap.get("startHour")).intValue());
-
-                    EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventAdded(object));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                DebugUtils.log("changed");
-                try {
-                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                    FirebaseDataObject object = new FirebaseDataObject();
-                    object.setFirebaseKey(hashMap.get("firebaseKey").toString());
-                    object.setEndMin(((Long) hashMap.get("endMin")).intValue());
-                    object.setEndHour(((Long) hashMap.get("endHour")).intValue());
-                    object.setStarMin(((Long) hashMap.get("starMin")).intValue());
-                    object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
-                    try {
-                        object.setPlaceId(hashMap.get("placeId").toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        object.setImage(hashMap.get("image").toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    object.setName(hashMap.get("name").toString());
-                    object.setStartHour(((Long) hashMap.get("startHour")).intValue());
-
-                    EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventChanged(object));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                DebugUtils.log("removed");
-                try {
-                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                    FirebaseDataObject object = new FirebaseDataObject();
-                    object.setFirebaseKey(hashMap.get("firebaseKey").toString());
-                    object.setEndMin(((Long) hashMap.get("endMin")).intValue());
-                    object.setEndHour(((Long) hashMap.get("endHour")).intValue());
-                    object.setStarMin(((Long) hashMap.get("starMin")).intValue());
-                    object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
-                    try {
-                        object.setPlaceId(hashMap.get("placeId").toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        object.setImage(hashMap.get("image").toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    object.setName(hashMap.get("name").toString());
-                    object.setStartHour(((Long) hashMap.get("startHour")).intValue());
-
-                    EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventRemoved(object));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                DebugUtils.log("moved");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                DebugUtils.log("cancelled");
-            }
-        });
+        childNode.orderByKey().addChildEventListener(this);
     }
 
     @OnClick(R.id.fab_planner)
@@ -231,5 +147,105 @@ public class PlannerActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
             return "Day " + (position + 1);
         }
+    }
+
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        DebugUtils.log("added");
+        try {
+            HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+            FirebaseDataObject object = new FirebaseDataObject();
+            object.setFirebaseKey(hashMap.get("firebaseKey").toString());
+            object.setEndMin(((Long) hashMap.get("endMin")).intValue());
+            object.setEndHour(((Long) hashMap.get("endHour")).intValue());
+            object.setStarMin(((Long) hashMap.get("starMin")).intValue());
+            object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
+            try {
+                object.setPlaceId(hashMap.get("placeId").toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                object.setImage(hashMap.get("image").toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            object.setName(hashMap.get("name").toString());
+            object.setStartHour(((Long) hashMap.get("startHour")).intValue());
+
+            EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventAdded(object));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        DebugUtils.log("changed");
+        try {
+            HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+            FirebaseDataObject object = new FirebaseDataObject();
+            object.setFirebaseKey(hashMap.get("firebaseKey").toString());
+            object.setEndMin(((Long) hashMap.get("endMin")).intValue());
+            object.setEndHour(((Long) hashMap.get("endHour")).intValue());
+            object.setStarMin(((Long) hashMap.get("starMin")).intValue());
+            object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
+            try {
+                object.setPlaceId(hashMap.get("placeId").toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                object.setImage(hashMap.get("image").toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            object.setName(hashMap.get("name").toString());
+            object.setStartHour(((Long) hashMap.get("startHour")).intValue());
+
+            EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventChanged(object));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+        DebugUtils.log("removed");
+        try {
+            HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+            FirebaseDataObject object = new FirebaseDataObject();
+            object.setFirebaseKey(hashMap.get("firebaseKey").toString());
+            object.setEndMin(((Long) hashMap.get("endMin")).intValue());
+            object.setEndHour(((Long) hashMap.get("endHour")).intValue());
+            object.setStarMin(((Long) hashMap.get("starMin")).intValue());
+            object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
+            try {
+                object.setPlaceId(hashMap.get("placeId").toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                object.setImage(hashMap.get("image").toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            object.setName(hashMap.get("name").toString());
+            object.setStartHour(((Long) hashMap.get("startHour")).intValue());
+
+            EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventRemoved(object));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        DebugUtils.log("moved");
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+        DebugUtils.log("cancelled");
     }
 }
