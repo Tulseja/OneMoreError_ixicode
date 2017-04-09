@@ -42,6 +42,8 @@ public class SplashActivity extends BaseActivity {
 
     int splashDuration = 1000;
 
+    boolean redirected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,7 @@ public class SplashActivity extends BaseActivity {
                             String placeId = sessionParams.getString(AppConstants.BRANCH.BRANCH_PLACE_ID);
                             String placeName = sessionParams.getString(AppConstants.BRANCH.BRANCH_PLACE_NAME);
                             String androidId = sessionParams.getString(AppConstants.BRANCH.BRANCH_ANDROID_ID);
+                            redirected = true;
                             openPlannerActivity(days, placeId, placeName, androidId);
                             finish();
                         }
@@ -92,13 +95,15 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void switchToHomeOrLoginActivity() {
-        ZPreferences.setIsUserLogin(this, true);
-        if (ZPreferences.getIsUserLogin(this)) {
-            openHomeActivity();
-        } else {
-            openLoginActivity();
+        if (!redirected) {
+            ZPreferences.setIsUserLogin(this, true);
+            if (ZPreferences.getIsUserLogin(this)) {
+                openHomeActivity();
+            } else {
+                openLoginActivity();
+            }
+            finish();
         }
-        finish();
     }
 
     @Override

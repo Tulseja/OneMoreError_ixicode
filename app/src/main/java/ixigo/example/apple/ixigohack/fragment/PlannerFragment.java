@@ -93,6 +93,7 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
             DatabaseReference childNode = myRef.child(deviceId);
 
             FirebaseDataObject firebaseObject = new FirebaseDataObject(obj.getData(), position);
+            firebaseObject.setPlaceId(placeId);
 
             DatabaseReference pushedChild = childNode.push();
             firebaseObject.setFirebaseKey(pushedChild.getKey());

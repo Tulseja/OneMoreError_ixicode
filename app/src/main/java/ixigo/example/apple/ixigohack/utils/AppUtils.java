@@ -57,7 +57,7 @@ public class AppUtils {
                     if (error == null) {
                         DebugUtils.log("Branch link : " + url);
 
-                        StringBuilder finalUrl = new StringBuilder("Click here to collaborate on our travel planning.");
+                        StringBuilder finalUrl = new StringBuilder("Click here to collaborate on our travel planning. ");
                         finalUrl.append(url);
 
                         DebugUtils.log(finalUrl.toString());
