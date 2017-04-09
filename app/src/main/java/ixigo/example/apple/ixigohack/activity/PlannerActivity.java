@@ -184,7 +184,7 @@ public class PlannerActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return PlannerFragment.newInstance(position, deviceId);
+            return PlannerFragment.newInstance(position, deviceId, placeId);
         }
 
         @Override
