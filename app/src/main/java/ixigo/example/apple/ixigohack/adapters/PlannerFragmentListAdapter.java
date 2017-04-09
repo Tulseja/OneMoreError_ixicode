@@ -1,8 +1,10 @@
 package ixigo.example.apple.ixigohack.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +16,13 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import ixigo.example.apple.ixigohack.BR;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.objects.FirebaseDataObject;
 import ixigo.example.apple.ixigohack.objects.placePicker.PlacePickerResponse;
 import ixigo.example.apple.ixigohack.utils.AndroidUtils;
+import ixigo.example.apple.ixigohack.utils.UIUtils;
 
 /**
  * Created by apple on 08/04/17.
@@ -31,6 +35,8 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
 
     LayoutInflater layoutInflater;
     PlannerFragmentInterface plannerFragmentInterface;
+
+    AlertDialog alertDialog;
 
     public void addData(FirebaseDataObject data) {
         mData.add(0, data);
@@ -46,6 +52,19 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
             if (AndroidUtils.compareString(mData.get(i).getFirebaseKey(), data.getFirebaseKey())) {
                 mData.set(i, data);
                 notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
+    public void removeData(FirebaseDataObject data) {
+        if (mData == null) {
+            return;
+        }
+        for (int i = 0; i < mData.size(); i++) {
+            if (AndroidUtils.compareString(mData.get(i).getFirebaseKey(), data.getFirebaseKey())) {
+                mData.remove(i);
+                notifyItemRemoved(i);
                 break;
             }
         }
@@ -98,6 +117,25 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
             }
         }
 
+        @OnLongClick(R.id.card_view)
+        boolean deleteItem() {
+            if (context != null && data != null) {
+                UIUtils.makeSimpleAlertDialogWithNegativeButton("Delete visit",
+                        "Are you sure you want to delete this item?",
+                        "YES",
+                        context,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (plannerFragmentInterface != null && data != null) {
+                                    plannerFragmentInterface.onDeleteClick(data);
+                                }
+                            }
+                        }, "NO");
+            }
+            return true;
+        }
+
         public PlannerHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -114,5 +152,7 @@ public class PlannerFragmentListAdapter extends RecyclerView.Adapter<PlannerFrag
 
     public interface PlannerFragmentInterface {
         void onUpdateClick(FirebaseDataObject obj);
+
+        void onDeleteClick(FirebaseDataObject obj);
     }
 }

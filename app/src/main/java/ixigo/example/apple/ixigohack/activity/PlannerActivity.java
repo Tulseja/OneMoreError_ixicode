@@ -165,6 +165,31 @@ public class PlannerActivity extends BaseActivity {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 DebugUtils.log("removed");
+                try {
+                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                    FirebaseDataObject object = new FirebaseDataObject();
+                    object.setFirebaseKey(hashMap.get("firebaseKey").toString());
+                    object.setEndMin(((Long) hashMap.get("endMin")).intValue());
+                    object.setEndHour(((Long) hashMap.get("endHour")).intValue());
+                    object.setStarMin(((Long) hashMap.get("starMin")).intValue());
+                    object.setDayPos(((Long) hashMap.get("dayPos")).intValue());
+                    try {
+                        object.setPlaceId(hashMap.get("placeId").toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        object.setImage(hashMap.get("image").toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    object.setName(hashMap.get("name").toString());
+                    object.setStartHour(((Long) hashMap.get("startHour")).intValue());
+
+                    EventBusHelper.sendEventSticky(new FirebaseEventBus.OnFirebaseEventRemoved(object));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

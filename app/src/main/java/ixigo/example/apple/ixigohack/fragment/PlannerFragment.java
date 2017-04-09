@@ -91,6 +91,34 @@ public class PlannerFragment extends BaseFragment implements PlannerFragmentList
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onMessageEvent(FirebaseEventBus.OnFirebaseEventRemoved obj) {
+        if (obj != null && obj.getData() != null && obj.getData().getDayPos() == position
+                && AndroidUtils.compareString(obj.getData().getPlaceId(), placeId)) {
+            if (adapter != null) {
+                adapter.removeData(obj.getData());
+            }
+        }
+    }
+
+    @Override
+    public void onDeleteClick(FirebaseDataObject obj) {
+        if (obj != null) {
+            FirebaseDatabase database = AppApplication.getFirebaseInstance();
+            DatabaseReference myRef = database.getReference(AppConstants.FIREBASE_CONSTANTS.FIREBASE_ROOT_NODE);
+            DatabaseReference childNode = myRef.child(deviceId);
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put(obj.getFirebaseKey(), null);
+            childNode.updateChildren(hashMap, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    DebugUtils.log("complete");
+                }
+            });
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(PlacePickerEventBus.OnPlacePicked obj) {
         if (obj != null && position == obj.getFragmentPosition()) {
