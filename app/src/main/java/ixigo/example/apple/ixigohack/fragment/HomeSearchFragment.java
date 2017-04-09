@@ -5,11 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import biz.kasual.materialnumberpicker.MaterialNumberPicker;
 import butterknife.BindView;
@@ -18,6 +22,8 @@ import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.R;
 import ixigo.example.apple.ixigohack.activity.BaseActivity;
 import ixigo.example.apple.ixigohack.activity.LocationSelectionActivity;
+import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
+import ixigo.example.apple.ixigohack.eventBus.HomeEventBus;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.objects.autoComplete.AutoCompleteResponse;
 import ixigo.example.apple.ixigohack.utils.DebugUtils;
@@ -48,6 +54,26 @@ public class HomeSearchFragment extends BaseFragment {
         HomeSearchFragment fragment = new HomeSearchFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBusHelper.unRegister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(HomeEventBus.TrendingItemClick obj) {
+        destination.setText(obj.getPlaceName());
+        destination.setTextColor(getActivity().getResources().getColor(R.color.z_text_color_medium_dark));
+        destinationPlaceId = obj.getPlaceId();
+        destinationPlaceName = obj.getPlaceName();
     }
 
     @Override

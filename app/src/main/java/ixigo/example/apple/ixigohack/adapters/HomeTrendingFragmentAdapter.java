@@ -12,7 +12,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ixigo.example.apple.ixigohack.R;
+import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
+import ixigo.example.apple.ixigohack.eventBus.HomeEventBus;
 import ixigo.example.apple.ixigohack.objects.trending.TrendingFragmentResponse;
 import ixigo.example.apple.ixigohack.serverApi.ImageRequestManager;
 
@@ -41,6 +44,14 @@ public class HomeTrendingFragmentAdapter extends RecyclerView.Adapter<HomeTrendi
 
         @BindView(R.id.imageOfPlace)
         ImageView thumbnail;
+        TrendingFragmentResponse.Flight data;
+
+        @OnClick(R.id.card_view)
+        void onItemClick() {
+            if (mContext != null && data != null) {
+                EventBusHelper.sendEvent(new HomeEventBus.TrendingItemClick(data.getCityId(), data.getName()));
+            }
+        }
 
         public MyViewHolder(View view) {
             super(view);
@@ -48,6 +59,7 @@ public class HomeTrendingFragmentAdapter extends RecyclerView.Adapter<HomeTrendi
         }
 
         public void setData(TrendingFragmentResponse.Flight data) {
+            this.data = data;
             placeName.setText(data.getCityName());
             ImageRequestManager.requestImage(mContext, thumbnail, data.getImage());
         }

@@ -3,11 +3,14 @@ package ixigo.example.apple.ixigohack.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import butterknife.BindView;
@@ -15,9 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.branch.referral.Branch;
 import ixigo.example.apple.ixigohack.R;
+import ixigo.example.apple.ixigohack.eventBus.EventBusHelper;
+import ixigo.example.apple.ixigohack.eventBus.HomeEventBus;
+import ixigo.example.apple.ixigohack.eventBus.PlacePickerEventBus;
 import ixigo.example.apple.ixigohack.extras.AppConstants;
 import ixigo.example.apple.ixigohack.fragment.HomeSearchFragment;
 import ixigo.example.apple.ixigohack.fragment.HomeTrendingFragment;
+import ixigo.example.apple.ixigohack.fragment.TimePickerFragment;
 
 /**
  * Created by apple on 08/04/17.
@@ -33,10 +40,22 @@ public class HomeActivity extends BaseActivity {
     MyPagerAdapter adapter;
 
     @Override
+    protected void onDestroy() {
+        EventBusHelper.unRegister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(HomeEventBus.TrendingItemClick obj) {
+        viewPager.setCurrentItem(1, true);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        EventBusHelper.register(this);
 
         setToolbar(getResources().getString(R.string.app_name), false);
 
